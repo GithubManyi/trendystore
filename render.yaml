@@ -1,0 +1,10 @@
+# render.yaml
+services:
+  - type: web
+    name: trendystore
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn trendystore.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: trendystore.settings
