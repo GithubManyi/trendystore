@@ -1,0 +1,56 @@
+<div class="col-md-3 col-sm-6 mb-4">
+  <div class="card h-100 shadow-sm border-0 position-relative product-card">
+
+    <!-- 🖼️ Image Carousel -->
+    <div class="carousel slide" id="productCarousel{{ product.id }}" data-bs-ride="carousel">
+      <div class="carousel-inner position-relative">
+
+        {% if product.image %}
+        <div class="carousel-item active">
+          <img src="{{ product.image.url }}" class="card-img-top" alt="Image 1">
+        </div>
+        {% endif %}
+        {% if product.image2 %}
+        <div class="carousel-item"><img src="{{ product.image2.url }}" class="card-img-top" alt="Image 2"></div>
+        {% endif %}
+        {% if product.image3 %}
+        <div class="carousel-item"><img src="{{ product.image3.url }}" class="card-img-top" alt="Image 3"></div>
+        {% endif %}
+        {% if product.image4 %}
+        <div class="carousel-item"><img src="{{ product.image4.url }}" class="card-img-top" alt="Image 4"></div>
+        {% endif %}
+        {% if product.image5 %}
+        <div class="carousel-item"><img src="{{ product.image5.url }}" class="card-img-top" alt="Image 5"></div>
+        {% endif %}
+
+        {% if product.image2 or product.image3 or product.image4 or product.image5 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel{{ product.id }}" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel{{ product.id }}" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+        {% endif %}
+
+        <!-- 🖱️ Hover Buttons on Desktop -->
+        <div class="hover-buttons">
+          <a href="{% url 'store:product_detail' product.id %}" class="btn btn-outline-light">View Details</a>
+          <a href="https://wa.me/{{ product.seller_whatsapp }}" class="btn btn-success">Chat on WhatsApp</a>
+        </div>
+
+        <!-- 📱 Always Visible Buttons on Mobile -->
+        <div class="mobile-buttons d-md-none">
+          <a href="{% url 'store:product_detail' product.id %}" class="btn btn-outline-light btn-sm">View</a>
+          <a href="https://wa.me/{{ product.seller_whatsapp }}" class="btn btn-success btn-sm">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📝 Product Info -->
+    <div class="card-body text-center">
+      <h6 class="fw-bold">{{ product.name }}</h6>
+      <p class="text-muted mb-1">Ksh {{ product.price }}</p>
+    </div>
+
+  </div>
+</div>

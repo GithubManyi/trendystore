@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4" id="top">
+  <h1 class="text-center display-4 fw-bold mt-4 mb-4">Coastal Scents🌴</h1>
+  
+
+  <!-- 🔍 Search and Category Filter -->
+  <form method="get" class="row mb-4">
+    <div class="col-md-6">
+      <input type="text" name="q" class="form-control" placeholder="Search products..." value="{{ query }}">
+    </div>
+    <div class="col-md-4">
+      <select name="category" class="form-select">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+  </form>
+
+  <!-- 🔥 Weekly Offers -->
+  <h3 class="mt-4 mb-3">🔥 Weekly Offers</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in weekly_offers %}
+      {% include 'store/product_card.html' with product=product %}
+    {% empty %}
+      <div class="col-12">
+        <p class="text-center text-muted">No weekly offers right now.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- 🆕 New Arrivals -->
+  <h3 class="mt-5 mb-3">🆕 New Arrivals</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in new_arrivals %}
+      {% include 'store/product_card.html' with product=product %}
+    {% empty %}
+      <div class="col-12">
+        <p class="text-center text-muted">No new arrivals at the moment.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- 💸 Discounted Products -->
+  <h3 class="mt-5 mb-3">💸 Discounted Products</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in discounted_products %}
+      {% include 'store/product_card.html' with product=product %}
+    {% empty %}
+      <div class="col-12">
+        <p class="text-center text-muted">No discounted products right now.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9353540350976398"
+     crossorigin="anonymous"></script>
+<!-- homepage_ad_unit -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9353540350976398"
+     data-ad-slot="6007928589"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <!-- 🛍️ All Products (Paginated) -->
+  <h3 class="mt-5 mb-3">🛍️ All Products</h3>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in products %}
+      {% include 'store/product_card.html' with product=product %}
+    {% empty %}
+    
+      <div class="col-12">
+        <p class="text-center text-muted">No products found matching your search.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- 🔁 Pagination -->
+  <div class="mt-4 d-flex justify-content-center">
+    <nav>
+      <ul class="pagination">
+        {% if products.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ products.previous_page_number }}&q={{ query }}&category={{ selected_category }}">Previous</a>
+          </li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ products.number }} of {{ products.paginator.num_pages }}</span></li>
+        {% if products.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ products.next_page_number }}&q={{ query }}&category={{ selected_category }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ⬅️ Go Back Button -->
+  <div class="text-center mt-5">
+    <button class="btn btn-outline-primary" onclick="window.history.back();">⬅️ Go Back</button>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="row">
+    <div class="col-md-6">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+      {% else %}
+        <div class="bg-light text-center p-5 border rounded">No Image</div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-6">
+      <h2>{{ product.name }}</h2>
+      <p><strong>Description:</strong> {{ product.description|linebreaker }}</p>
+      <p><strong>Price:</strong> <span class="text-success fw-bold">{{ product.price }} KES</span></p>
+
+      <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>Availability:</strong> 
+          {% if product.is_available %}
+            <span class="text-success">✔ In Stock</span>
+          {% else %}
+            <span class="text-danger">❌ Sold Out</span>
+          {% endif %}
+
+
+
+        </li>
+        <li class="list-group-item"><strong>Brand New:</strong> {{ product.is_brand_new|yesno:"Yes,No" }}</li>
+        <li class="list-group-item"><strong>Quality:</strong> {{ product.quality_description }}</li>
+        <li class="list-group-item"><strong>Seller Location:</strong> {{ product.seller_location }}</li>
+        <li class="list-group-item"><strong>Delivery Method:</strong> {{ product.delivery_method }}</li>
+        <li class="list-group-item"><strong>Delivery Cost:</strong> {{ product.delivery_cost }} to {{ product.delivery_location }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ product.seller_phone }}</li>
+        
+        <h5 class="mt-5">Customer Reviews</h5>
+        {% if reviews %}
+          {% for review in reviews %}
+            <div class="border rounded p-3 mb-3">
+              <strong>{{ review.name }}</strong> 
+              <span class="text-warning">★ {{ review.rating }}/5</span><br>
+              <p>{{ review.comment }}</p>
+              <small class="text-muted">{{ review.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No reviews yet.</p>
+        {% endif %}
+        
+        
+        
+        <h5 class="mt-4">Leave a Review</h5>
+        <form method="post" class="mb-5">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+        
+      </ul>
+
+      <!-- WhatsApp button -->
+      <a href="https://wa.me/{{product.seller_whatsapp|urlencode}}?text=Hi, I'm interested in your product '{{ product.name }}'" 
+         class="btn btn-success w-100 mb-2" target="_blank">
+        📱 Chat Seller on WhatsApp
+      </a>
+
+      <!-- Back to Home -->
+      <a href="{% url 'store:home' %}" class="btn btn-secondary w-100">⬅ Back to Store</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
